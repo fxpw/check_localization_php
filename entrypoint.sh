@@ -8,7 +8,7 @@ contains_russian() {
 echo "GITHUB_REF: $GITHUB_REF"
 echo "GITHUB_SHA: $GITHUB_SHA"
 
-changed_files=$(git diff --name-only "$GITHUB_REF" "$GITHUB_SHA")
+changed_files=$(git diff --name-only origin/test-branch...HEAD)
 
 for filename in $changed_files; do
     if [[ "$filename" == *.blade.php ]]; then
