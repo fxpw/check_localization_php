@@ -7,6 +7,9 @@ contains_russian() {
 
 echo "GITHUB_REF: $GITHUB_REF"
 echo "GITHUB_SHA: $GITHUB_SHA"
+echo "GITHUB_ACTOR: $GITHUB_ACTOR"
+echo "GITHUB_TOKEN: $GITHUB_TOKEN"
+
 git config --global credential.helper "store --file=.git/credentials"
 echo "https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com" > .git/credentials
 git config --global --add safe.directory /github/workspace
