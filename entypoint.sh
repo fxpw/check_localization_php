@@ -1,3 +1,19 @@
 #!/bin/bash
 set -e
-# your commands here
+
+contains_russian() {
+    echo "$1" | grep -q '[а-яА-Я]'
+}
+
+# Получаем список измененных файлов
+changed_files=$(git diff --name-only "$GITHUB_REF" "$GITHUB_SHA")
+
+for filename in $changed_files; do
+    if [[ "$filename" == *.blade.php ]]; then
+        while IFS= read -r line; do
+            if contains_russian "$line"; then
+                echo "Файл \"$filename\": строка \"${line}\" - требует локализации."
+            fi
+        done < "$filename"
+    fi
+done
