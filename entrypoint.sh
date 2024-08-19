@@ -5,17 +5,16 @@ contains_russian() {
     echo "$1" | grep -q '[а-яА-Я]'
 }
 
-echo "GITHUB_REF: $GITHUB_REF"
-echo "GITHUB_SHA: $GITHUB_SHA"
-echo "GITHUB_ACTOR: $GITHUB_ACTOR"
-echo "GITHUB_TOKEN: $GITHUB_TOKEN"
-
 git config --global credential.helper "store --file=.git/credentials"
 echo "https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com" > .git/credentials
 git config --global --add safe.directory /github/workspace
-git fetch origin
 
-changed_files=$(git diff --name-only FETCH_HEAD "$GITHUB_SHA")
+pr_number="${GITHUB_REF##*/}"
+git fetch origin
+git fetch origin pull/"$pr_number"/merge:refs/remotes/origin/pr"$pr_number"
+changed_files=$(git diff --name-only refs/remotes/origin/pr"$pr_number" "$GITHUB_SHA")
+
+# changed_files=$(git diff --name-only FETCH_HEAD "$GITHUB_SHA")
 
 for filename in $changed_files; do
     if [[ "$filename" == *.blade.php ]]; then
