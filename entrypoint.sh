@@ -24,9 +24,10 @@ changed_files=$(git diff --name-only "origin/$BASE_BRANCH" "$GITHUB_SHA")
 localization_needed=false
 for filename in $changed_files; do
     if [[ "$filename" == *.blade.php ]]; then
+		line_number=0
         while IFS= read -r line; do
+			line_number=$((line_number + 1))
             if contains_russian "$line"; then
-				line_number=$(echo "$line" | awk '{ print NR }')
                 echo "File ${filename}:${line_number} Line \"$line\""
 				localization_needed=true
             fi
