@@ -9,10 +9,10 @@ contains_russian() {
 changed_files=$(git diff --name-only "$GITHUB_REF" "$GITHUB_SHA")
 
 for filename in $changed_files; do
-    if [[ "$filename" == *.blade.php ]]; then
+    if [[ "$filename" == *.blade.php ]]; then  # Правильная проверка на окончание файла
         while IFS= read -r line; do
             if contains_russian "$line"; then
-                echo "Файл \"$filename\": строка \"${line}\" - требует локализации."
+                echo "Файл \"$filename\": строка \"$line\" - требует локализации."
             fi
         done < "$filename"
     fi
