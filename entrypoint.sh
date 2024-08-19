@@ -13,7 +13,7 @@ echo "GITHUB_TOKEN: $GITHUB_TOKEN"
 git config --global credential.helper "store --file=.git/credentials"
 echo "https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com" > .git/credentials
 git config --global --add safe.directory /github/workspace
-git fetch origin pull/"${GITHUB_REF##*/}"/merge
+git fetch origin
 
 changed_files=$(git diff --name-only FETCH_HEAD "$GITHUB_SHA")
 
