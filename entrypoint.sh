@@ -5,6 +5,9 @@ contains_russian() {
     echo "$1" | grep -q '[а-яА-Я]'
 }
 
+echo "GITHUB_REF: $GITHUB_REF"
+echo "GITHUB_SHA: $GITHUB_SHA"
+
 changed_files=$(git diff --name-only "$GITHUB_REF" "$GITHUB_SHA")
 
 for filename in $changed_files; do
