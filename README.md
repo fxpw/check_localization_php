@@ -1,4 +1,4 @@
-# GitHub Action check_localization_php
+# GitHub Action check localization in blade.php
 
 
 ## Usage
