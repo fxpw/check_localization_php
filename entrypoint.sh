@@ -20,7 +20,7 @@ git fetch origin
 
 changed_files=$(git diff --name-only "origin/$BASE_BRANCH" "$GITHUB_SHA")
 
-localization_needed=false
+need_throw_error=false
 for filename in $changed_files; do
     if [[ "$filename" == *.blade.php ]]; then
 		line_number=0
@@ -28,13 +28,13 @@ for filename in $changed_files; do
 			line_number=$((line_number + 1))
             if contains_russian "$line"; then
                 echo "File ${filename}:${line_number} Line \"$line\""
-				localization_needed=true
+				need_throw_error=true
             fi
         done < "$filename"
     fi
 done
 
-if $localization_needed; then
+if $need_throw_error; then
     echo "Find files for localization."
     exit 1
 fi
