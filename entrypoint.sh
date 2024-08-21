@@ -16,7 +16,6 @@ else
     BASE_BRANCH="main"
 fi
 
-pr_number="${GITHUB_REF##*/}"
 git fetch origin
 
 changed_files=$(git diff --name-only "origin/$BASE_BRANCH" "$GITHUB_SHA")
