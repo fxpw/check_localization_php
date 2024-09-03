@@ -2,7 +2,7 @@
 set -e
 
 contains_russian() {
-	echo "$1" | grep -q '[а-яА-Я]'
+	echo "$1" | grep -Pi '[\x{0400}-\x{04FF}]';
 }
 
 git config --global credential.helper "store --file=.git/credentials"
