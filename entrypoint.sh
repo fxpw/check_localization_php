@@ -21,15 +21,17 @@ changed_files=$(git diff --name-only "origin/$BASE_BRANCH" "$GITHUB_SHA")
 
 need_throw_error=false
 for filename in $changed_files; do
-	if [[ "$filename" == *.blade.php ]]; then
-		line_number=0
-		while IFS= read -r line; do
-			line_number=$((line_number + 1))
-			if contains_russian "$line"; then
-				echo "File ${filename}:${line_number} Line \"$line\""
-				need_throw_error=true
-			fi
-		done <"$filename"
+	if [[ -f "$filename" ]]; then
+		if [[ "$filename" == *.blade.php ]]; then
+			line_number=0
+			while IFS= read -r line; do
+				line_number=$((line_number + 1))
+				if contains_russian "$line"; then
+					echo "File ${filename}:${line_number} Line \"$line\""
+					need_throw_error=true
+				fi
+			done <"$filename"
+		fi
 	fi
 done
 
